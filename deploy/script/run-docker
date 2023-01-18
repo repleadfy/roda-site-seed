@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative 'context'
+app_conf = DeployContext.new.get
+
+# Build with:
+system("docker build . -t #{app_conf[:image]} -f Dockerfile --target=#{app_conf[:target]}")
+
+# Then run:
+system("docker run -p 8080:8080 --env-file .env #{app_conf[:image]}:latest")

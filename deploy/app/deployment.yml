@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: new-site
+  name: new-site
+  namespace: leadfy-pub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: new-site
+  template:
+    metadata:
+      labels:
+        app: new-site
+    spec:
+      containers:
+      - image: ghcr.io/repleadfy/new-site:0.0
+        resources:
+          requests:
+            memory: 120Mi
+            cpu: 30m
+          limits:
+            memory: 250Mi
+            cpu: 700m
+        name: new-site
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: "/health_check_ztKwHt"
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: "/health_check_ztKwHt"
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        envFrom:
+        - configMapRef:
+            name: config-ruby
+        - configMapRef:
+            name: config-new-site
+        - secretRef:
+            name: secret-servers
+        - secretRef:
+            name: secret-new-site
+      imagePullSecrets:
+      - name: tl-ghcr-secret

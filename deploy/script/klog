@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative 'context'
+app_conf = DeployContext.new.get
+
+system("kail -n '#{app_conf[:namespace]}' -d '#{app_conf[:image]}'")

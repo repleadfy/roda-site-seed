@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative 'context'
+app_conf = DeployContext.new.get
+
+pod = ARGV[0] || "deployment.apps/#{app_conf[:image]}"
+
+system("kubectl exec --stdin --tty '#{pod}' -n '#{app_conf[:namespace]}' -- /bin/sh")

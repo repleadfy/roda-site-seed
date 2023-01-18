@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  SENTRY_DSN: https://800b5755e4134ec88fc78d7af013f184@sentry.leadfy.com.br/23
+  CHAT_MEDIA_BUCKET: leadfy_app_files
+  CHAT_MEDIA_RECV_DIR: chat-recv
+  EARGER_LOAD: 'false'
+kind: ConfigMap
+metadata:
+  name: config-new-site
+  namespace: leadfy-pub

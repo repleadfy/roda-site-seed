@@ -1,0 +1,4 @@
+image: new-site
+target: web
+namespace: leadfy-pub
+context: gke_infra-296311_southamerica-east1_leadfy-br-google

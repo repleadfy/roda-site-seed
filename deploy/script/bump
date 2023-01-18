@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative 'context'
+app_conf = DeployContext.new.get
+
+# Read deployment
+
+dep_file = "#{app_conf[:dir_deploy]}/app/deployment.yml"
+
+dep = YAML.load_file(dep_file)
+
+img = dep['spec']['template']['spec']['containers'][0]['image']
+name, tag = img.split(':')
+maj, min = tag.split('.')
+
+# Bump deployment
+
+new_tag = "#{maj}.#{Integer(min, 10) + 1}"
+dep['spec']['template']['spec']['containers'][0]['image'] = "#{name}:#{new_tag}"
+File.write(dep_file, dep.to_yaml)
+
+# Deploy
+
+system("#{app_conf[:dir_script]}/build.sh '#{new_tag}' '#{app_conf[:image]}' '#{app_conf[:target]}'")
+system("#{app_conf[:dir_script]}/update_k8s")
+system("#{app_conf[:dir_script]}/klog")

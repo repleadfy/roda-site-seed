@@ -1,0 +1,4 @@
+pt_BR:
+  invalid_params: Sua requisição contém parâmetros inválidos.
+  something_went_wrong: Algo deu errado.
+  not_found: Não encontrado.

@@ -1,0 +1,20 @@
+
+.asd {
+  font-size: 10px;
+}
+
+ul {
+  & {
+    list-style: none;
+  }
+  .todo {
+    color: red;
+  }
+  .done {
+    color: green;
+  }
+}
+
+body {
+  background-color: aqua;
+}

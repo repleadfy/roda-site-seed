@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative 'context'
+app_conf = DeployContext.new.get
+
+system("kubectl rollout restart deployment.apps/#{app_conf[:image]} -n '#{app_conf[:namespace]}'")
